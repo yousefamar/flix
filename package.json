@@ -1,0 +1,29 @@
+{
+  "name": "flix",
+  "version": "0.1.0",
+  "description": "Lightweight media streaming server",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/yousefamar/flix.git"
+  },
+  "keywords": [
+    "netflix",
+    "streaming",
+    "media",
+    "server",
+    "video",
+    "plex",
+    "kodi",
+    "emby"
+  ],
+  "author": "Yousef Amar <yousef@amar.io> (http://yousefamar.com/)",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/yousefamar/flix/issues"
+  },
+  "homepage": "https://github.com/yousefamar/flix#readme"
+}
