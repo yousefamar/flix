@@ -1,0 +1,11 @@
+{
+	"userno": {
+		"quota": 0,
+		"passwordHash": ""
+	},
+	"herobrine": {
+		"quota": 5,
+		"passwordHash": "$2b$10$nxupGcZvVMg9yqkTEO2qceswt2sgxehy2i1K63kZWGuIyMIpEKMAC",
+		"shouldChangePassword": true
+	}
+}

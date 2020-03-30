@@ -1,0 +1,53 @@
+doctype html
+html(lang='en')
+
+	head
+		meta(charset='utf-8')
+		meta(name='viewport' content='width=device-width')
+
+		title Amarflix &mdash; #{info.metadata.title} (#{info.metadata.release_date.substr(0, 4)})
+		script(src='https://cdn.plyr.io/3.5.10/plyr.js')
+		link(rel='stylesheet' href='https://unpkg.com/plyr@3/dist/plyr.css')
+		style.
+			@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+			* {
+				font-family: 'Roboto', sans-serif;
+			}
+			html, body {
+				margin: 0;
+				padding: 0;
+				width: 100%;
+				height: 100%;
+				background-color: #030c22;
+			}
+			h1, h2, h3 {
+				color: #e5e7e8;
+			}
+			header {
+				margin: 0 20px;
+			}
+			#player {
+				margin: 0 2%;
+				margin-bottom: 20px;
+				max-width: 100%;
+			}
+			@media (min-width: 768px) {
+				#player {
+					margin: 0 100px;
+					margin-bottom: 20px;
+				}
+			}
+
+	body
+		header
+			h1 Amarflix &mdash; #{username}
+			h2 #{info.metadata.title} (#{info.metadata.release_date.substr(0, 4)})
+
+		#player
+			video(playsinline controls poster='https://image.tmdb.org/t/p/original/' + info.metadata.backdrop_path)
+				source(src=info.path type='video/mp4')
+				each sub in info.subs
+					track(kind='captions' label=sub.langNice src=sub.path srclang=sub.langShort default='')
+
+		script.
+			const player = new Plyr('video');

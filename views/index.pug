@@ -1,0 +1,151 @@
+doctype html
+html(lang="en")
+
+	head
+		meta(charset='utf-8')
+		title Amarflix
+		style.
+			@import url('https://fonts.googleapis.com/css?family=Roboto&display=swap');
+			* {
+				font-family: 'Roboto', sans-serif;
+			}
+			html, body {
+				margin: 0;
+				padding: 0;
+				height: 100%;
+				background-color: #030c22;
+			}
+			h1, h2, h3 {
+				color: #e5e7e8;
+			}
+			header {
+				margin: 0 20px;
+			}
+			p {
+				color: #a9b0b3;
+			}
+			a {
+				text-decoration: none;
+			}
+			a:link {
+				color: #E0D498;
+			}
+			a:visited {
+				color: #d3cba5;
+			}
+			a:hover {
+				color: #98a4e0;
+			}
+			a:active {
+				color: white;
+			}
+			#selection {
+				display: block;
+			}
+			.movie {
+				display: flex;
+				background-color: #20293F;
+				margin: 20px;
+				overflow: auto;
+				border-radius: 4px;
+			}
+			.poster {
+				margin-right: 10px;
+			}
+			.poster img {
+				display: block;
+			}
+			.info {
+				flex: 1;
+				margin-bottom: 10px;
+			}
+			.play {
+				border-radius: 4rem;
+				margin: 1rem;
+				width: 4rem;
+				height: 4rem;
+				font-size: 2rem;
+				cursor: pointer;
+				background-color: #282836;
+				color: #E0D498;
+				border: 1px solid #E0D498;
+			}
+			.play:hover {
+				color: #3E3E53;
+				background-color: #eee;
+			}
+			.center {
+				text-align: center;
+			}
+			#password-warning {
+				background-color: #441818;
+				padding: 8px;
+				border-radius: 8px;
+			}
+
+	body
+		header
+			h1 Amarflix &mdash; #{username}
+			if shouldChangePassword
+				p#password-warning.
+					Your account is marked as insecure! Please change your password.
+					#[br]
+					#[a(href='#', onclick='changePass()') Change Password]
+
+		#selection
+			each info, id in catalog
+				.movie
+					.poster
+						img(src='https://image.tmdb.org/t/p/w200' + info.metadata.poster_path alt='Poster for ' + info.metadata.title)
+						.center
+							button.play(onclick=`window.open('/${id}')`) ▶️
+					.info
+						h2.title= info.metadata.title
+						h3.tagline= info.metadata.tagline
+						p.overview= info.metadata.overview
+						p #[b Genres:] #{info.metadata.genres.map(g => g.name).join(', ')}
+						p #[b Runtime:] #{Math.floor(info.metadata.runtime / 60)}:#{info.metadata.runtime % 60}
+						p #[b Release date:] #{info.metadata.release_date}
+						p #[b Popularity:] #{info.metadata.popularity}
+						p #[b Vote average:] #{info.metadata.vote_average}
+
+		script.
+			let changePass = (() => {
+				let opts = {
+					method: 'POST',
+					credentials: 'include',
+					headers: {
+						//'Accept': 'application/json',
+						'Content-Type': 'application/json'
+					},
+				};
+
+				return () => {
+					let pass = 'a';
+					let passConfirm = 'b';
+					while (pass !== passConfirm) {
+						do {
+							pass = window.prompt('Enter new password:');
+						} while (pass === '');
+						if (pass === null) {
+							window.alert('Password unchanged');
+							return;
+						}
+						passConfirm = window.prompt('Confirm new password:');
+						if (passConfirm === null) {
+							window.alert('Password unchanged');
+							return;
+						}
+					}
+					opts.body = JSON.stringify({
+						password: pass,
+					});
+					fetch('change-password', opts)
+						.then(() => {
+							window.alert('Password changed')
+							let passWarning = document.getElementById('password-warning');
+							if (passWarning != null)
+								passWarning.remove();
+						}).catch(e => console.error(e));
+				};
+			})();
