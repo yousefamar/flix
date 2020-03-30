@@ -74,6 +74,7 @@ async function walk(dir) {
 }
 
 async function rescan() {
+	// TODO: Check exists
 	let files = await walk('./static/movies/');
 
 	// Remove samples
