@@ -125,7 +125,7 @@ async function rescan() {
 		let dir = 'static/' + path.dirname(f);
 		let subs;
 		try {
-			console.log('Fetching subs...');
+			console.log('Fetching subs (' + metadata.imdb_id + ')...');
 			subs = await yifysubs(metadata.imdb_id, {
 				path: dir,
 				langs: [ 'en', 'de', 'ar', 'it' ]
