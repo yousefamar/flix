@@ -75,6 +75,7 @@ async function walk(dir) {
 
 async function rescan() {
 	// TODO: Check exists
+	console.log('Scanning movies...');
 	let files = await walk('./static/movies/');
 
 	// Remove samples
@@ -92,6 +93,7 @@ async function rescan() {
 		console.error('stderr:', stderr);
 	}
 
+	console.log('Scanning movies again...');
 	files = await walk('./static/movies/');
 	files = files
 		.filter(f => f.toLowerCase().indexOf('sample') < 0)
@@ -117,11 +119,13 @@ async function rescan() {
 		name = name[name.length - 1];
 		year = name.match(/\b(19|[2-9][0-9])\d{2}\b/g)[0];
 		name = name.split(year)[0].replace(/\[|\]|\(\)/g, '').replace(/\./g, ' ').trim();
+		console.log('Fetching metadata...');
 		let metadata = await getMetadata(name, year);
 
 		let dir = 'static/' + path.dirname(f);
 		let subs;
 		try {
+			console.log('Fetching subs...');
 			subs = await yifysubs(metadata.imdb_id, {
 				path: dir,
 				langs: [ 'en', 'de', 'ar', 'it' ]
@@ -144,7 +148,9 @@ async function rescan() {
 		};
 	}
 
+	console.log('Updating catalog...');
 	fs.writeFileSync('catalog.json', JSON.stringify(catalog, null, '\t') + '\n');
+	console.log('Done');
 }
 
 rescan();
