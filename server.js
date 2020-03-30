@@ -93,7 +93,7 @@ async function rescan() {
 
 	files = await walk('./static/movies/');
 	files = files
-		.filter(f => f.toLowerCase().indexOf('sample') < 0);
+		.filter(f => f.toLowerCase().indexOf('sample') < 0)
 		.filter(f => f.endsWith('.mp4'))
 		.map(f => f.replace('static/', ''));
 
