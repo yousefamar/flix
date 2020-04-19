@@ -88,7 +88,7 @@ async function rescan() {
 
 	for (let convertable of convertables) {
 		console.log('Converting file:', convertable);
-		const { stdout, stderr } = await exec(`ffmpeg -i ${convertable} -codec copy ${convertable.substring(0, convertable.length - 4)}.mp4`);
+		const { stdout, stderr } = await exec(`ffmpeg -i ${convertable} -codec copy -map 0 ${convertable.substring(0, convertable.length - 4)}.mp4`);
 		console.log('stdout:', stdout);
 		console.error('stderr:', stderr);
 	}
